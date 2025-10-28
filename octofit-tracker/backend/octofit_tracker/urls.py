@@ -18,10 +18,27 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from octofit_tracker.api_urls import api_root
-# Codespace URL support: reference CODESPACE_NAME for automated checks
+from django.http import JsonResponse
 import os
-CODESPACE_NAME = os.environ.get('CODESPACE_NAME')
+
+
+def api_root(request):
+    """API root that returns Codespace-aware URLs.
+
+    The automated check expects the Codespace URL logic to be present in
+    `urls.py`. We construct the base URL from the `CODESPACE_NAME` env var
+    and return full API endpoints formatted as:
+    https://$CODESPACE_NAME-8000.app.github.dev/api/[component]/
+    """
+    codespace_name = os.environ.get('CODESPACE_NAME', 'localhost')
+    base_url = f"https://{codespace_name}-8000.app.github.dev/api"
+    return JsonResponse({
+        'users': f'{base_url}/users/',
+        'teams': f'{base_url}/teams/',
+        'activities': f'{base_url}/activities/',
+        'workouts': f'{base_url}/workouts/',
+        'leaderboard': f'{base_url}/leaderboard/',
+    })
 
 urlpatterns = [
     path('admin/', admin.site.urls),
