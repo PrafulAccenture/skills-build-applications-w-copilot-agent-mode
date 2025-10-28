@@ -6,12 +6,11 @@ class Command(BaseCommand):
     help = 'Populate the octofit_db database with test data'
 
     def handle(self, *args, **options):
-        self.stdout.write(self.style.WARNING('Deleting old data...'))
-        Leaderboard.objects.all().delete()
-        Activity.objects.all().delete()
-        Workout.objects.all().delete()
-        User.objects.all().delete()
-        Team.objects.all().delete()
+        self.stdout.write(self.style.WARNING('WARNING: This command does NOT delete old data.'))
+        self.stdout.write(self.style.WARNING('Before running this command, drop the collections in MongoDB using:'))
+        self.stdout.write(self.style.WARNING(
+            "mongosh --eval 'use octofit_db; db.users.drop(); db.teams.drop(); db.activities.drop(); db.leaderboards.drop(); db.workouts.drop();'"
+        ))
 
         self.stdout.write(self.style.SUCCESS('Creating teams...'))
         marvel = Team.objects.create(name='Team Marvel', description='Marvel superheroes')

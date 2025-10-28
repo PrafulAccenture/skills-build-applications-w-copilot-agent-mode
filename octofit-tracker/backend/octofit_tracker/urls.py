@@ -14,10 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+
 from django.contrib import admin
 from django.urls import path, include
+from octofit_tracker.api_urls import api_root
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('octofit_tracker.urls')),
+    path('api/', include('octofit_tracker.api_urls')),
+    path('', api_root, name='root'),
 ]
