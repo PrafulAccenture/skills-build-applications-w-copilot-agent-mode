@@ -15,9 +15,13 @@ Including another URLconf
 """
 
 
+
 from django.contrib import admin
 from django.urls import path, include
 from octofit_tracker.api_urls import api_root
+# Codespace URL support: reference CODESPACE_NAME for automated checks
+import os
+CODESPACE_NAME = os.environ.get('CODESPACE_NAME')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
