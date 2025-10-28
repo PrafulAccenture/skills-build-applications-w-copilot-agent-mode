@@ -15,7 +15,8 @@ router.register(r'leaderboard', LeaderboardViewSet)
 @api_view(['GET'])
 def api_root(request, format=None):
     codespace_name = os.environ.get('CODESPACE_NAME', 'localhost')
-    base_url = f"https://{codespace_name}-8000.app.github.dev/api" if codespace_name != 'localhost' else "http://localhost:8000/api"
+    # Always use Codespace URL for API root, even if accessed via localhost
+    base_url = f"https://{codespace_name}-8000.app.github.dev/api"
     return Response({
         'users': f'{base_url}/users/',
         'teams': f'{base_url}/teams/',
