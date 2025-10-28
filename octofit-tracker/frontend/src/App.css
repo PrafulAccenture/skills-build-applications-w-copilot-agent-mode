@@ -1,0 +1,21 @@
+/* Simple styling to complement Bootstrap */
+body {
+  background-color: #f8fafc;
+}
+
+.app-container {
+  margin-top: 1rem;
+}
+
+.card-list {
+  margin-top: 1rem;
+}
+
+.table-json {
+  font-size: 0.9rem;
+}
+
+.modal-pre {
+  max-height: 60vh;
+  overflow: auto;
+}

@@ -8,6 +8,8 @@ function buildBaseUrl() {
 
 export default function Users() {
   const [items, setItems] = useState([]);
+  const [selected, setSelected] = useState(null);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     const base = buildBaseUrl();
@@ -23,10 +25,58 @@ export default function Users() {
       .catch((err) => console.error('Users fetch error', err));
   }, []);
 
+  const openDetails = (item) => { setSelected(item); setShow(true); };
+
   return (
-    <div className="container py-4">
-      <h2>Users</h2>
-      <pre>{JSON.stringify(items, null, 2)}</pre>
+    <div className="container py-4 app-container">
+      <h2 className="h3">Users</h2>
+      <div className="card">
+        <div className="card-body">
+          <table className="table table-striped table-json">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Team</th>
+                <th>Superhero</th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((it) => (
+                <tr key={it.id || it.email}>
+                  <td>{it.id}</td>
+                  <td>{it.name}</td>
+                  <td>{it.email}</td>
+                  <td>{it.team}</td>
+                  <td>{it.is_superhero ? 'Yes' : 'No'}</td>
+                  <td><button className="btn btn-sm btn-primary" onClick={() => openDetails(it)}>Details</button></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {show && (
+        <div className="modal show d-block" tabIndex="-1">
+          <div className="modal-dialog modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">User Details</h5>
+                <button type="button" className="btn-close" onClick={() => setShow(false)} />
+              </div>
+              <div className="modal-body">
+                <pre className="modal-pre">{JSON.stringify(selected, null, 2)}</pre>
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-secondary" onClick={() => setShow(false)}>Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

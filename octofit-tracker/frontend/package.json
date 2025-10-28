@@ -15,4 +15,11 @@
     "react-router-dom": "^7.9.4",
     "react-scripts": "^5.0.1"
   }
+  ,
+  "browserslist": [
+    "last 2 versions",
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
 }

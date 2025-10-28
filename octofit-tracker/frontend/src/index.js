@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 import App from './App';
 
 console.log('REACT_APP_CODESPACE_NAME =', process.env.REACT_APP_CODESPACE_NAME);
