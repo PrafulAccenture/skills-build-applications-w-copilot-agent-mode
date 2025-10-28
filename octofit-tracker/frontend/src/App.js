@@ -8,9 +8,12 @@ import Leaderboard from './components/Leaderboard';
 
 function Nav() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-custom">
       <div className="container">
-        <Link className="navbar-brand" to="/">OctoFit Tracker</Link>
+        <Link className="navbar-brand d-flex align-items-center" to="/">
+          <img src="/octofitapp-small.svg" alt="OctoFit" className="app-logo" />
+          <span className="brand-title">OctoFit Tracker</span>
+        </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon" />
         </button>

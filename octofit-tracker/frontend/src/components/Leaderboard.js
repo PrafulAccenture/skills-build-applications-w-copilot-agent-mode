@@ -8,6 +8,7 @@ function buildBaseUrl() {
 
 export default function Leaderboard() {
   const [items, setItems] = useState([]);
+  const [teamsMap, setTeamsMap] = useState({});
   const [selected, setSelected] = useState(null);
   const [show, setShow] = useState(false);
 
@@ -15,14 +16,27 @@ export default function Leaderboard() {
     const base = buildBaseUrl();
     const url = `${base}/leaderboard/`;
     console.log('Fetching Leaderboard from', url);
-    fetch(url)
+    const teamsUrl = `${base}/teams/`;
+    // fetch teams to resolve team names
+    fetch(teamsUrl)
       .then((r) => r.json())
-      .then((data) => {
-        console.log('Leaderboard response:', data);
-        const list = data && data.results ? data.results : data || [];
-        setItems(list);
+      .then((tdata) => {
+        const tlist = tdata && tdata.results ? tdata.results : tdata || [];
+        const map = {};
+        tlist.forEach((t) => { map[t.id] = t.name; });
+        setTeamsMap(map);
       })
-      .catch((err) => console.error('Leaderboard fetch error', err));
+      .catch((err) => console.warn('Teams fetch error', err))
+      .finally(() => {
+        fetch(url)
+          .then((r) => r.json())
+          .then((data) => {
+            console.log('Leaderboard response:', data);
+            const list = data && data.results ? data.results : data || [];
+            setItems(list);
+          })
+          .catch((err) => console.error('Leaderboard fetch error', err));
+      });
   }, []);
 
   const openDetails = (item) => { setSelected(item); setShow(true); };
@@ -37,6 +51,7 @@ export default function Leaderboard() {
               <tr>
                 <th>Rank</th>
                 <th>User</th>
+                <th>Team</th>
                 <th>Score</th>
                 <th />
               </tr>
@@ -46,6 +61,7 @@ export default function Leaderboard() {
                 <tr key={it.user || idx}>
                   <td>{it.rank || idx + 1}</td>
                   <td>{it.user}</td>
+                  <td>{teamsMap[it.team] || it.team}</td>
                   <td>{it.score}</td>
                   <td><button className="btn btn-sm btn-outline-primary" onClick={() => openDetails(it)}>Details</button></td>
                 </tr>

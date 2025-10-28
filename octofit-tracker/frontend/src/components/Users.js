@@ -8,21 +8,35 @@ function buildBaseUrl() {
 
 export default function Users() {
   const [items, setItems] = useState([]);
+  const [teamsMap, setTeamsMap] = useState({});
   const [selected, setSelected] = useState(null);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     const base = buildBaseUrl();
     const url = `${base}/users/`;
+    const teamsUrl = `${base}/teams/`;
     console.log('Fetching Users from', url);
-    fetch(url)
+    // fetch teams first to build a name map
+    fetch(teamsUrl)
       .then((r) => r.json())
-      .then((data) => {
-        console.log('Users response:', data);
-        const list = data && data.results ? data.results : data || [];
-        setItems(list);
+      .then((tdata) => {
+        const tlist = tdata && tdata.results ? tdata.results : tdata || [];
+        const map = {};
+        tlist.forEach((t) => { map[t.id] = t.name; });
+        setTeamsMap(map);
       })
-      .catch((err) => console.error('Users fetch error', err));
+      .catch((err) => console.warn('Teams fetch error', err))
+      .finally(() => {
+        fetch(url)
+          .then((r) => r.json())
+          .then((data) => {
+            console.log('Users response:', data);
+            const list = data && data.results ? data.results : data || [];
+            setItems(list);
+          })
+          .catch((err) => console.error('Users fetch error', err));
+      });
   }, []);
 
   const openDetails = (item) => { setSelected(item); setShow(true); };
@@ -49,7 +63,7 @@ export default function Users() {
                   <td>{it.id}</td>
                   <td>{it.name}</td>
                   <td>{it.email}</td>
-                  <td>{it.team}</td>
+                  <td>{teamsMap[it.team] || it.team}</td>
                   <td>{it.is_superhero ? 'Yes' : 'No'}</td>
                   <td><button className="btn btn-sm btn-primary" onClick={() => openDetails(it)}>Details</button></td>
                 </tr>

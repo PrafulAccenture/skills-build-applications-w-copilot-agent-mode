@@ -1,10 +1,28 @@
-/* Simple styling to complement Bootstrap */
+/* Theme colors */
+:root{
+  --bg-1: #0f172a; /* dark navy */
+  --bg-2: #07102a; /* deeper */
+  --accent: #ff6b6b; /* coral */
+  --muted: #94a3b8; /* muted text */
+  --card: #0b1220; /* card bg */
+  --table-head: #0b1728;
+  --link: #7dd3fc; /* sky */
+}
+
 body {
-  background-color: #f8fafc;
+  background: radial-gradient(circle at 10% 10%, rgba(125,107,255,0.06), transparent 200px), linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  color: #e6eef8;
+  min-height: 100vh;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 }
 
 .app-container {
   margin-top: 1rem;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
 }
 
 .card-list {
@@ -13,9 +31,78 @@ body {
 
 .table-json {
   font-size: 0.9rem;
+  color: #dbeafe;
+}
+
+.table thead th {
+  background: linear-gradient(90deg, rgba(125,107,255,0.08), rgba(125,107,255,0.03));
+  color: #e0f2fe;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.table tbody tr:hover {
+  background: rgba(125,107,255,0.03);
 }
 
 .modal-pre {
   max-height: 60vh;
   overflow: auto;
+  background: rgba(2,6,23,0.6);
+  padding: 0.75rem;
+  border-radius: 6px;
 }
+
+h1,h2,h3,h4 {
+  color: var(--accent);
+}
+
+a, .nav-link {
+  color: var(--link) !important;
+}
+
+.navbar-custom {
+  background: linear-gradient(90deg, rgba(2,6,23,0.6), rgba(7,10,25,0.85));
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.navbar-brand .app-logo{
+  height: 36px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.navbar-brand span.brand-title{
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.6px;
+}
+
+.btn-primary, .btn-outline-primary{
+  background: linear-gradient(90deg, var(--accent), #ff8b8b);
+  border-color: rgba(255,255,255,0.06);
+  color: #07102a;
+}
+
+.btn-secondary{
+  background: #1f2937;
+  color: #e6eef8;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.link-faint{
+  color: var(--muted);
+}
+
+.small-muted{
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* small responsive tweaks */
+@media (max-width: 576px){
+  .navbar-brand span.brand-title{display:none}
+}
+
+/* preserve legacy spacing */
+.app-container { margin-top: 1rem; }
+
